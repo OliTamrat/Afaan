@@ -1,4 +1,5 @@
 // Exercise data for various interactive learning activities
+import { getAllFlashcards } from './flashcardsExpanded.js';
 
 export const exerciseTypes = {
   FILL_IN_BLANK: 'fill_in_blank',
@@ -57,18 +58,8 @@ export const exercisesData = {
         explanation: '"Ser" (to be) is highly irregular: soy, eres, es, somos, sois, son'
       }
     ],
-    flashcards: [
-      { id: 1, front: 'Hola', back: 'Hello', category: 'Greetings', difficulty: 1 },
-      { id: 2, front: 'Adiós', back: 'Goodbye', category: 'Greetings', difficulty: 1 },
-      { id: 3, front: 'Por favor', back: 'Please', category: 'Politeness', difficulty: 1 },
-      { id: 4, front: 'Gracias', back: 'Thank you', category: 'Politeness', difficulty: 1 },
-      { id: 5, front: 'Lo siento', back: 'I\'m sorry', category: 'Politeness', difficulty: 1 },
-      { id: 6, front: 'El gato', back: 'The cat', category: 'Animals', difficulty: 1 },
-      { id: 7, front: 'El perro', back: 'The dog', category: 'Animals', difficulty: 1 },
-      { id: 8, front: 'La comida', back: 'The food', category: 'Food', difficulty: 1 },
-      { id: 9, front: 'El agua', back: 'The water', category: 'Food', difficulty: 1 },
-      { id: 10, front: 'La casa', back: 'The house', category: 'Home', difficulty: 1 }
-    ],
+    // Import 540 comprehensive flashcards from flashcardsExpanded.js
+    flashcards: getAllFlashcards('spanish'),
     translation: [
       {
         id: 1,
