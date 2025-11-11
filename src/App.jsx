@@ -80,6 +80,7 @@ const LanguageTutor = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showLanguagePicker, setShowLanguagePicker] = useState(false);
 
   // Achievements State
   const [unlockedAchievements, setUnlockedAchievements] = useState([]);
@@ -422,6 +423,8 @@ IMPORTANT: Return only valid JSON, no markdown formatting.`;
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "x-api-key": import.meta.env.VITE_ANTHROPIC_API_KEY || "",
+          "anthropic-version": "2023-06-01"
         },
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514",
@@ -648,17 +651,14 @@ IMPORTANT: Return only valid JSON, no markdown formatting.`;
                   </h1>
                 </div>
 
-                <select
-                  value={selectedLanguage}
-                  onChange={(e) => handleLanguageChange(e.target.value)}
-                  className="px-4 py-2 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 font-medium shadow-sm"
+                <button
+                  onClick={() => setShowLanguagePicker(true)}
+                  className="px-4 py-2 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-xl hover:border-blue-500 dark:hover:border-blue-400 hover:scale-105 transition-all font-medium shadow-sm flex items-center space-x-2"
                 >
-                  {Object.entries(languages).map(([code, lang]) => (
-                    <option key={code} value={code}>
-                      {lang.flag} {lang.name}
-                    </option>
-                  ))}
-                </select>
+                  <span className="text-2xl">{languages[selectedLanguage].flag}</span>
+                  <span>{languages[selectedLanguage].name}</span>
+                  <ChevronRight className="h-4 w-4 opacity-50" />
+                </button>
 
                 <div className={`px-4 py-2 rounded-xl text-sm font-bold border-2 shadow-sm ${getProficiencyColor(userProfile.proficiencyLevel)}`}>
                   ⭐ {userProfile.proficiencyLevel}
@@ -1286,6 +1286,85 @@ IMPORTANT: Return only valid JSON, no markdown formatting.`;
                   Cultural content coming soon for {languages[selectedLanguage].name}!
                 </p>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* Language Picker Modal */}
+        {showLanguagePicker && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setShowLanguagePicker(false)}>
+            <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6" onClick={(e) => e.stopPropagation()}>
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center">
+                  <Globe className="h-7 w-7 mr-2 text-blue-600" />
+                  Choose Your Language
+                </h2>
+                <button onClick={() => setShowLanguagePicker(false)} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+
+              <p className="text-gray-600 dark:text-gray-300 mb-6 text-center">
+                Select the language you want to learn
+              </p>
+
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {Object.entries(languages).map(([code, lang]) => (
+                  <button
+                    key={code}
+                    onClick={() => {
+                      handleLanguageChange(code);
+                      setShowLanguagePicker(false);
+                    }}
+                    className={`group relative p-6 rounded-2xl border-3 transition-all duration-200 ${
+                      selectedLanguage === code
+                        ? 'bg-gradient-to-br from-blue-500 to-purple-600 border-blue-600 shadow-xl scale-105'
+                        : 'bg-gradient-to-br from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 border-gray-200 dark:border-gray-600 hover:border-blue-400 dark:hover:border-blue-500 hover:scale-105 hover:shadow-lg'
+                    }`}
+                  >
+                    {/* Selected Checkmark */}
+                    {selectedLanguage === code && (
+                      <div className="absolute top-2 right-2 bg-white rounded-full p-1">
+                        <CheckCircle className="h-5 w-5 text-blue-600" />
+                      </div>
+                    )}
+
+                    {/* Flag */}
+                    <div className="text-6xl mb-3 transform group-hover:scale-110 transition-transform">
+                      {lang.flag}
+                    </div>
+
+                    {/* Language Name */}
+                    <div className="text-center">
+                      <p className={`font-bold text-base mb-1 ${
+                        selectedLanguage === code
+                          ? 'text-white'
+                          : 'text-gray-800 dark:text-white'
+                      }`}>
+                        {lang.name}
+                      </p>
+                      <p className={`text-sm ${
+                        selectedLanguage === code
+                          ? 'text-blue-100'
+                          : 'text-gray-500 dark:text-gray-400'
+                      }`}>
+                        {lang.nativeName}
+                      </p>
+                    </div>
+
+                    {/* Hover Effect Overlay */}
+                    {selectedLanguage !== code && (
+                      <div className="absolute inset-0 bg-blue-50 dark:bg-blue-900 opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity" />
+                    )}
+                  </button>
+                ))}
+              </div>
+
+              <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+                  💡 Tip: You can switch languages anytime to practice multiple languages!
+                </p>
+              </div>
             </div>
           </div>
         )}
