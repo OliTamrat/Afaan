@@ -1,5 +1,11 @@
 // Exercise data for various interactive learning activities
 import { getAllFlashcards } from './flashcardsExpanded.js';
+import {
+  generateFlashcardsFromOmniglot,
+  generateFillInBlankExercises,
+  generateMultipleChoiceExercises,
+  generateTranslationExercises
+} from './openSourceIntegration.js';
 
 export const exerciseTypes = {
   FILL_IN_BLANK: 'fill_in_blank',
@@ -80,53 +86,25 @@ export const exercisesData = {
     ]
   },
   french: {
-    fill_in_blank: [
-      {
-        id: 1,
-        level: 'Beginner',
-        question: 'Je ___ français.',
-        options: ['parle', 'parles', 'parlons', 'parlez'],
-        correct: 'parle',
-        translation: 'I speak French',
-        explanation: '"Parle" is the first person singular form of "parler"'
-      }
-    ],
-    flashcards: [
-      { id: 1, front: 'Bonjour', back: 'Hello/Good day', category: 'Greetings', difficulty: 1 },
-      { id: 2, front: 'Merci', back: 'Thank you', category: 'Politeness', difficulty: 1 },
-      { id: 3, front: 'Au revoir', back: 'Goodbye', category: 'Greetings', difficulty: 1 },
-      { id: 4, front: 'S\'il vous plaît', back: 'Please (formal)', category: 'Politeness', difficulty: 1 },
-      { id: 5, front: 'Le chat', back: 'The cat', category: 'Animals', difficulty: 1 }
-    ]
+    // Auto-generated from open-source Omniglot data
+    fill_in_blank: generateFillInBlankExercises('french'),
+    multiple_choice: generateMultipleChoiceExercises('french'),
+    flashcards: generateFlashcardsFromOmniglot('french'),
+    translation: generateTranslationExercises('french')
   },
   afaan_oromo: {
-    fill_in_blank: [
-      {
-        id: 1,
-        level: 'Beginner',
-        question: '___ jirta?',
-        options: ['Akkam', 'Nagaa', 'Maal', 'Eessa'],
-        correct: 'Akkam',
-        translation: 'How are you?',
-        explanation: '"Akkam" means "how" and is used in greetings'
-      }
-    ],
-    flashcards: [
-      { id: 1, front: 'Nagaa', back: 'Peace/Hello', category: 'Greetings', difficulty: 1 },
-      { id: 2, front: 'Galatoomaa', back: 'Thank you', category: 'Politeness', difficulty: 1 },
-      { id: 3, front: 'Akkam jirta?', back: 'How are you?', category: 'Greetings', difficulty: 1 },
-      { id: 4, front: 'Maqaan koo', back: 'My name is', category: 'Introduction', difficulty: 1 },
-      { id: 5, front: 'Buna', back: 'Coffee', category: 'Food', difficulty: 1 }
-    ]
+    // Auto-generated from open-source Omniglot data (40+ phrases)
+    fill_in_blank: generateFillInBlankExercises('afaan_oromo'),
+    multiple_choice: generateMultipleChoiceExercises('afaan_oromo'),
+    flashcards: generateFlashcardsFromOmniglot('afaan_oromo'),
+    translation: generateTranslationExercises('afaan_oromo')
   },
   amharic: {
-    flashcards: [
-      { id: 1, front: 'ሰላም', back: 'Hello/Peace', category: 'Greetings', difficulty: 1 },
-      { id: 2, front: 'አመሰግናለሁ', romanization: 'Ameseginalehu', back: 'Thank you', category: 'Politeness', difficulty: 1 },
-      { id: 3, front: 'እንዴት ነህ?', back: 'How are you? (m)', category: 'Greetings', difficulty: 1 },
-      { id: 4, front: 'እንዴት ነሽ?', back: 'How are you? (f)', category: 'Greetings', difficulty: 1 },
-      { id: 5, front: 'ቡና', back: 'Coffee', category: 'Food', difficulty: 1 }
-    ]
+    // Auto-generated from open-source Omniglot data (35+ phrases with romanization)
+    fill_in_blank: generateFillInBlankExercises('amharic'),
+    multiple_choice: generateMultipleChoiceExercises('amharic'),
+    flashcards: generateFlashcardsFromOmniglot('amharic'),
+    translation: generateTranslationExercises('amharic')
   }
 };
 
