@@ -419,37 +419,52 @@ Respond with a JSON object in this exact format:
 
 IMPORTANT: Return only valid JSON, no markdown formatting.`;
 
-      // Call our local proxy server instead of Anthropic API directly
-      // This avoids CORS issues (browsers can't call Anthropic API directly)
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3002';
+      let responseText;
 
-      console.log('Calling API proxy at:', `${apiUrl}/api/chat`);
+      // Check if Claude Code embedded API is available (window.claude)
+      if (typeof window.claude !== 'undefined' && window.claude.complete) {
+        console.log('Using Claude Code embedded API (window.claude.complete)');
 
-      const response = await fetch(`${apiUrl}/api/chat`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          prompt: prompt
-        })
-      });
+        // Use Claude Code's built-in API - works with Claude Code credits!
+        try {
+          responseText = await window.claude.complete(prompt);
+        } catch (error) {
+          console.error('Claude Code API error:', error);
+          throw new Error('Claude Code API failed. Try refreshing or check your Claude Code session.');
+        }
+      } else {
+        console.log('window.claude not available, using backend proxy server');
 
-      const data = await response.json();
+        // Fall back to our backend proxy for Anthropic API
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3002';
+        console.log('Calling API proxy at:', `${apiUrl}/api/chat`);
 
-      // Check if the API returned an error
-      if (!response.ok) {
-        console.error('API Error Response:', data);
-        throw new Error(data.details || data.error || `API Error: ${response.status} ${response.statusText}`);
+        const response = await fetch(`${apiUrl}/api/chat`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            prompt: prompt
+          })
+        });
+
+        const data = await response.json();
+
+        // Check if the API returned an error
+        if (!response.ok) {
+          console.error('API Error Response:', data);
+          throw new Error(data.details || data.error || `API Error: ${response.status} ${response.statusText}`);
+        }
+
+        // Check if response has expected structure
+        if (!data.content || !data.content[0] || !data.content[0].text) {
+          console.error('Unexpected API response structure:', data);
+          throw new Error('Unexpected response format from API');
+        }
+
+        responseText = data.content[0].text.trim();
       }
-
-      // Check if response has expected structure
-      if (!data.content || !data.content[0] || !data.content[0].text) {
-        console.error('Unexpected API response structure:', data);
-        throw new Error('Unexpected response format from API');
-      }
-
-      let responseText = data.content[0].text.trim();
 
       if (responseText.startsWith('```json')) {
         responseText = responseText.replace(/```json\n?/g, '').replace(/```\n?/g, '');
