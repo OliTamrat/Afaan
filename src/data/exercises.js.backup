@@ -131,7 +131,7 @@ export const exercisesData = {
   amharic: {
     flashcards: [
       { id: 1, front: 'ሰላም', back: 'Hello/Peace', category: 'Greetings', difficulty: 1 },
-      { id: 2, front: 'አመሰግናለሁ', romanization: 'Ameseginalehu', back: 'Thank you', category: 'Politeness', difficulty: 1 },
+      { id: 2, front: 'አመሰግናለሁ', back: 'Thank you', category: 'Politeness', difficulty: 1 },
       { id: 3, front: 'እንዴት ነህ?', back: 'How are you? (m)', category: 'Greetings', difficulty: 1 },
       { id: 4, front: 'እንዴት ነሽ?', back: 'How are you? (f)', category: 'Greetings', difficulty: 1 },
       { id: 5, front: 'ቡና', back: 'Coffee', category: 'Food', difficulty: 1 }

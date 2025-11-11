@@ -10,6 +10,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 // Import utilities and data
 import { saveToStorage, loadFromStorage, exportData, importData, STORAGE_KEYS } from './utils/storage';
 import { speak, stopSpeaking, isSpeechSynthesisSupported, SpeechRecognitionManager } from './utils/audio';
+import { transliterate, needsTransliteration } from './utils/transliteration';
 import {
   languages, grammarLibrary, culturalInsights, conversationScenarios,
   achievements as achievementsData, themes as themesData
