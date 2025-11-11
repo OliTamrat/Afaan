@@ -6,6 +6,95 @@ import {
   generateMultipleChoiceExercises,
   generateTranslationExercises
 } from './openSourceIntegration.js';
+import {
+  fetchTatoebaSentences,
+  generateUnlimitedFlashcards,
+  generateUnlimitedExercises,
+  massiveOmniglotData,
+  UnlimitedContentLoader
+} from './unlimitedContent.js';
+
+// Create content loaders for each language - enables UNLIMITED content!
+export const contentLoaders = {
+  spanish: new UnlimitedContentLoader('spanish'),
+  french: new UnlimitedContentLoader('french'),
+  afaan_oromo: new UnlimitedContentLoader('afaan_oromo'),
+  amharic: new UnlimitedContentLoader('amharic'),
+  korean: new UnlimitedContentLoader('korean'),
+  chinese: new UnlimitedContentLoader('chinese'),
+  german: new UnlimitedContentLoader('german'),
+  italian: new UnlimitedContentLoader('italian'),
+  portuguese: new UnlimitedContentLoader('portuguese'),
+  japanese: new UnlimitedContentLoader('japanese')
+};
+
+/**
+ * Load more content dynamically for any language
+ * This allows truly unlimited learning resources!
+ */
+export async function loadMoreContent(language, type = 'flashcards', count = 50) {
+  if (!contentLoaders[language]) {
+    console.warn(`No content loader for ${language}`);
+    return [];
+  }
+
+  return await contentLoaders[language].loadMore(type, count);
+}
+
+/**
+ * Get content statistics for a language
+ * Shows how much content has been loaded so far
+ */
+export function getContentStats(language) {
+  if (!contentLoaders[language]) {
+    return { flashcardsLoaded: 0, sentencesLoaded: 0, exercisesLoaded: 0, totalItems: 0 };
+  }
+
+  return contentLoaders[language].getStats();
+}
+
+/**
+ * Initialize content for a language
+ * Loads initial batch of content from multiple sources
+ */
+export async function initializeLanguageContent(language) {
+  console.log(`Initializing unlimited content for ${language}...`);
+
+  try {
+    // Load initial flashcards (combines Omniglot + Tatoeba)
+    const flashcards = await generateUnlimitedFlashcards(language, 100);
+
+    // Load initial sentences from Tatoeba
+    const sentences = await fetchTatoebaSentences(language, 50);
+
+    // Load initial exercises
+    const exercises = await generateUnlimitedExercises(language, 'all', 50);
+
+    console.log(`${language} initialized:`, {
+      flashcards: flashcards.length,
+      sentences: sentences.length,
+      exercises: Object.values(exercises).flat().length
+    });
+
+    return {
+      flashcards,
+      sentences,
+      exercises
+    };
+  } catch (error) {
+    console.error(`Error initializing ${language}:`, error);
+    // Fallback to existing static content
+    return {
+      flashcards: generateFlashcardsFromOmniglot(language),
+      sentences: [],
+      exercises: {
+        fillInBlank: generateFillInBlankExercises(language),
+        multipleChoice: generateMultipleChoiceExercises(language),
+        translation: generateTranslationExercises(language)
+      }
+    };
+  }
+}
 
 export const exerciseTypes = {
   FILL_IN_BLANK: 'fill_in_blank',
