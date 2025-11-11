@@ -400,24 +400,24 @@ Lesson mode: ${showLessonMode}
 
 Respond with a JSON object in this exact format:
 {
-  "tutorResponse": "Your encouraging response in ${languages[selectedLanguage].name}. ${showLessonMode ? 'Focus on teaching specific grammar or vocabulary.' : 'Keep the conversation natural.'} Keep responses concise (2-3 sentences).",
-  "englishTranslation": "The same response in English",
+  "tutorResponse": "Your encouraging response in ${languages[selectedLanguage].name}. ${showLessonMode ? 'Focus on teaching specific grammar or vocabulary.' : 'Keep the conversation natural and flowing.'}",
+  "englishTranslation": "The exact same response translated to English",
   "feedback": {
-    "positive": ["Specific positive aspects"],
+    "positive": ["Positive aspects of their language use"],
     "corrections": ["Gentle corrections if needed"],
-    "suggestions": ["One helpful suggestion"]
+    "suggestions": ["Helpful suggestions for improvement"]
   },
   "grammarAnalysis": {
     "accuracy": 85,
     "detectedLevel": "${detectedLevel}",
-    "strengths": ["What they did well"],
-    "improvements": ["One area to work on"]
+    "strengths": ["Areas they did well"],
+    "improvements": ["Areas to work on"]
   },
-  "vocabularyUsed": ["new", "words"],
-  "progressNotes": "Brief encouraging note"
+  "vocabularyUsed": ["words", "they", "used"],
+  "progressNotes": "Brief encouraging note about their progress"
 }
 
-IMPORTANT: Return only valid JSON, no markdown formatting.`;
+Your entire response MUST be valid JSON only. DO NOT include any text outside the JSON structure.`;
 
       let responseText;
 
