@@ -1065,49 +1065,88 @@ IMPORTANT: Return only valid JSON, no markdown formatting.`;
 
               {exerciseType === 'flashcard' && exercisesData[selectedLanguage]?.flashcards && (
                 <div className="text-center">
+                  {/* Audio Button - Prominent position */}
+                  <div className="flex justify-center mb-4">
+                    <button
+                      onClick={() => {
+                        const card = exercisesData[selectedLanguage].flashcards[flashcardIndex];
+                        const textToSpeak = showFlashcardAnswer ? card.back : card.front;
+                        handleSpeakMessage(textToSpeak, showFlashcardAnswer ? 'english' : selectedLanguage);
+                      }}
+                      className="flex items-center space-x-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-bold shadow-lg hover:scale-105 transition-transform"
+                      title="Click to hear pronunciation"
+                    >
+                      <Volume2 className="h-5 w-5" />
+                      <span>🔊 Listen</span>
+                    </button>
+                  </div>
+
                   <div
-                    className="bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-2xl p-12 mb-6 cursor-pointer hover:scale-105 transition-transform min-h-[300px] flex items-center justify-center"
+                    className="bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-2xl p-12 mb-6 cursor-pointer hover:scale-105 transition-transform min-h-[300px] flex flex-col items-center justify-center"
                     onClick={() => setShowFlashcardAnswer(!showFlashcardAnswer)}
                   >
-                    <div>
-                      <p className="text-4xl font-bold text-gray-800 dark:text-white mb-4">
+                    <div className="text-center">
+                      <p className="text-5xl font-bold text-gray-800 dark:text-white mb-4">
                         {showFlashcardAnswer
                           ? exercisesData[selectedLanguage].flashcards[flashcardIndex].back
                           : exercisesData[selectedLanguage].flashcards[flashcardIndex].front
                         }
                       </p>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">
-                        {showFlashcardAnswer ? '(English)' : `(${languages[selectedLanguage].name})`}
+
+                      {/* Show romanization for non-Latin scripts */}
+                      {!showFlashcardAnswer && needsTransliteration(selectedLanguage) && (
+                        <div className="mt-4 p-4 bg-white dark:bg-gray-800 rounded-xl border-2 border-blue-300 dark:border-blue-600">
+                          <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Pronunciation:</p>
+                          <p className="text-2xl font-semibold text-blue-600 dark:text-blue-400">
+                            {exercisesData[selectedLanguage].flashcards[flashcardIndex].romanization ||
+                             transliterate(exercisesData[selectedLanguage].flashcards[flashcardIndex].front, selectedLanguage)}
+                          </p>
+                        </div>
+                      )}
+
+                      <p className="text-sm text-gray-600 dark:text-gray-300 mt-4">
+                        {showFlashcardAnswer ? '✅ (English Translation)' : `📖 (${languages[selectedLanguage].name})`}
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 italic">
+                        Click card to flip • Click speaker to hear
                       </p>
                     </div>
                   </div>
+
                   {showFlashcardAnswer && (
                     <div className="flex justify-center space-x-4">
                       <button
                         onClick={() => nextFlashcard(2)}
-                        className="px-6 py-3 bg-red-500 text-white rounded-xl font-bold hover:bg-red-600"
+                        className="px-6 py-3 bg-red-500 text-white rounded-xl font-bold hover:bg-red-600 hover:scale-105 transition-transform shadow-md"
                       >
                         Hard 😰
                       </button>
                       <button
                         onClick={() => nextFlashcard(3)}
-                        className="px-6 py-3 bg-yellow-500 text-white rounded-xl font-bold hover:bg-yellow-600"
+                        className="px-6 py-3 bg-yellow-500 text-white rounded-xl font-bold hover:bg-yellow-600 hover:scale-105 transition-transform shadow-md"
                       >
                         Good 😊
                       </button>
                       <button
                         onClick={() => nextFlashcard(5)}
-                        className="px-6 py-3 bg-green-500 text-white rounded-xl font-bold hover:bg-green-600"
+                        className="px-6 py-3 bg-green-500 text-white rounded-xl font-bold hover:bg-green-600 hover:scale-105 transition-transform shadow-md"
                       >
                         Easy 😎
                       </button>
                     </div>
                   )}
-                  <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-                    Card {flashcardIndex + 1} of {exercisesData[selectedLanguage].flashcards.length}
-                  </p>
+
+                  <div className="mt-4 flex justify-between items-center">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      Card {flashcardIndex + 1} of {exercisesData[selectedLanguage].flashcards.length}
+                    </p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500">
+                      Category: {exercisesData[selectedLanguage].flashcards[flashcardIndex].category}
+                    </p>
+                  </div>
                 </div>
               )}
+
 
               {(exerciseType === 'fill_in_blank' || exerciseType === 'multiple_choice') && currentExercise && (
                 <div>
