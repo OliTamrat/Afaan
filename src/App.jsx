@@ -419,21 +419,36 @@ Respond with a JSON object in this exact format:
 
 IMPORTANT: Return only valid JSON, no markdown formatting.`;
 
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
+      // Call our local proxy server instead of Anthropic API directly
+      // This avoids CORS issues (browsers can't call Anthropic API directly)
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3002';
+
+      console.log('Calling API proxy at:', `${apiUrl}/api/chat`);
+
+      const response = await fetch(`${apiUrl}/api/chat`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "x-api-key": import.meta.env.VITE_ANTHROPIC_API_KEY || "",
-          "anthropic-version": "2023-06-01"
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
-          messages: [{ role: "user", content: prompt }],
+          prompt: prompt
         })
       });
 
       const data = await response.json();
+
+      // Check if the API returned an error
+      if (!response.ok) {
+        console.error('API Error Response:', data);
+        throw new Error(data.details || data.error || `API Error: ${response.status} ${response.statusText}`);
+      }
+
+      // Check if response has expected structure
+      if (!data.content || !data.content[0] || !data.content[0].text) {
+        console.error('Unexpected API response structure:', data);
+        throw new Error('Unexpected response format from API');
+      }
+
       let responseText = data.content[0].text.trim();
 
       if (responseText.startsWith('```json')) {
@@ -492,10 +507,27 @@ IMPORTANT: Return only valid JSON, no markdown formatting.`;
       updateStreak();
 
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Chat Error:', error);
+      console.error('Error details:', error.message);
+
+      let errorText = `I'm having trouble right now. 🌟`;
+
+      // Add specific error messages for debugging
+      if (error.message.includes('credit balance')) {
+        errorText = `💳 No API Credits\n\nYour Anthropic account needs credits to use the AI chat.\n\n📍 Please visit: https://console.anthropic.com/\n→ Go to "Plans & Billing"\n→ Add credits (start with $5-10)\n\nOnce credits are added, the chat will work! 🚀`;
+      } else if (error.message.includes('API key')) {
+        errorText = `⚠️ API Key Error: ${error.message}`;
+      } else if (error.message.includes('API Error')) {
+        errorText = `⚠️ ${error.message}\n\nPlease check the browser console (F12) for details.`;
+      } else if (error.message.includes('Unexpected response')) {
+        errorText = `⚠️ ${error.message}\n\nCheck console for API response details.`;
+      } else if (error.name === 'SyntaxError') {
+        errorText = `⚠️ JSON Parse Error: The AI's response was not in the expected format.\n\n${error.message}`;
+      }
+
       const errorMessage = {
         id: Date.now() + 1,
-        text: `I'm having trouble right now. Let's keep practicing! 🌟`,
+        text: errorText,
         sender: 'tutor',
         timestamp: new Date()
       };
