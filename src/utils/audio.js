@@ -1,7 +1,7 @@
 // Audio utilities for text-to-speech and speech recognition
 
-// Text-to-Speech
-export const speak = (text, language = 'es-ES', rate = 1.0, pitch = 1.0) => {
+// Text-to-Speech with improved quality
+export const speak = (text, language = 'es-ES', rate = 0.85, pitch = 1.0) => {
   if ('speechSynthesis' in window) {
     // Cancel any ongoing speech
     window.speechSynthesis.cancel();
@@ -20,17 +20,56 @@ export const speak = (text, language = 'es-ES', rate = 1.0, pitch = 1.0) => {
       korean: 'ko-KR',
       afaan_oromo: 'en-US', // Fallback to English
       amharic: 'am-ET',
+      english: 'en-US'
     };
 
     utterance.lang = languageMap[language] || language;
-    utterance.rate = rate;
-    utterance.pitch = pitch;
+
+    // Improved settings for more natural speech
+    utterance.rate = rate; // Slower = more natural (default 0.85)
+    utterance.pitch = pitch; // Natural pitch
     utterance.volume = 1.0;
+
+    // Try to select a better voice if available
+    const voices = window.speechSynthesis.getVoices();
+    const targetLang = languageMap[language] || language;
+
+    // Find voices matching the language
+    const matchingVoices = voices.filter(voice =>
+      voice.lang.startsWith(targetLang.split('-')[0])
+    );
+
+    if (matchingVoices.length > 0) {
+      // Prefer voices with "premium", "enhanced", "natural" in the name
+      const premiumVoice = matchingVoices.find(v =>
+        v.name.toLowerCase().includes('premium') ||
+        v.name.toLowerCase().includes('enhanced') ||
+        v.name.toLowerCase().includes('natural') ||
+        v.name.toLowerCase().includes('google')
+      );
+
+      // Or prefer female voices (often sound better)
+      const femaleVoice = matchingVoices.find(v =>
+        v.name.toLowerCase().includes('female') ||
+        v.name.toLowerCase().includes('woman') ||
+        v.name.toLowerCase().includes('zira') ||
+        v.name.toLowerCase().includes('samantha')
+      );
+
+      utterance.voice = premiumVoice || femaleVoice || matchingVoices[0];
+    }
 
     return new Promise((resolve, reject) => {
       utterance.onend = resolve;
-      utterance.onerror = reject;
-      window.speechSynthesis.speak(utterance);
+      utterance.onerror = (error) => {
+        console.error('Speech synthesis error:', error);
+        reject(error);
+      };
+
+      // Small delay to ensure voices are loaded
+      setTimeout(() => {
+        window.speechSynthesis.speak(utterance);
+      }, 100);
     });
   } else {
     console.warn('Speech synthesis not supported');
