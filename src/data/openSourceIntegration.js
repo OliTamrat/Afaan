@@ -242,6 +242,94 @@ export const omniglotBasicPhrases = {
       { french: 'Je m\'appelle...', english: 'My name is...', category: 'introduction' },
       { french: 'Enchanté(e)', english: 'Pleased to meet you', category: 'introduction' }
     ]
+  },
+
+  korean: {
+    greetings: [
+      { korean: '안녕하세요', romanization: 'Annyeonghaseyo', english: 'Hello (formal)', category: 'greetings' },
+      { korean: '안녕', romanization: 'Annyeong', english: 'Hi (informal)', category: 'greetings' },
+      { korean: '잘 지냈어요?', romanization: 'Jal jinaesseoyo?', english: 'How have you been?', category: 'greetings' },
+      { korean: '안녕히 가세요', romanization: 'Annyeonghi gaseyo', english: 'Goodbye (when someone is leaving)', category: 'greetings' },
+      { korean: '안녕히 계세요', romanization: 'Annyeonghi gyeseyo', english: 'Goodbye (when you are leaving)', category: 'greetings' }
+    ],
+    politeness: [
+      { korean: '감사합니다', romanization: 'Gamsahamnida', english: 'Thank you (formal)', category: 'politeness' },
+      { korean: '고마워요', romanization: 'Gomawoyo', english: 'Thank you (informal)', category: 'politeness' },
+      { korean: '죄송합니다', romanization: 'Joesonghamnida', english: 'I\'m sorry (formal)', category: 'politeness' },
+      { korean: '미안해요', romanization: 'Mianhaeyo', english: 'Sorry (informal)', category: 'politeness' },
+      { korean: '실례합니다', romanization: 'Sillyehamnida', english: 'Excuse me', category: 'politeness' },
+      { korean: '천만에요', romanization: 'Cheonmaneyo', english: 'You\'re welcome', category: 'politeness' }
+    ],
+    basics: [
+      { korean: '네', romanization: 'Ne', english: 'Yes', category: 'basics' },
+      { korean: '아니요', romanization: 'Aniyo', english: 'No', category: 'basics' },
+      { korean: '괜찮아요', romanization: 'Gwaenchanayo', english: 'It\'s okay', category: 'basics' },
+      { korean: '제 이름은 ... 입니다', romanization: 'Je ireumeun ... imnida', english: 'My name is...', category: 'introduction' }
+    ],
+    numbers: [
+      { korean: '일', romanization: 'Il', english: '1', category: 'numbers' },
+      { korean: '이', romanization: 'I', english: '2', category: 'numbers' },
+      { korean: '삼', romanization: 'Sam', english: '3', category: 'numbers' },
+      { korean: '사', romanization: 'Sa', english: '4', category: 'numbers' },
+      { korean: '오', romanization: 'O', english: '5', category: 'numbers' },
+      { korean: '육', romanization: 'Yuk', english: '6', category: 'numbers' },
+      { korean: '칠', romanization: 'Chil', english: '7', category: 'numbers' },
+      { korean: '팔', romanization: 'Pal', english: '8', category: 'numbers' },
+      { korean: '구', romanization: 'Gu', english: '9', category: 'numbers' },
+      { korean: '십', romanization: 'Sip', english: '10', category: 'numbers' }
+    ],
+    family: [
+      { korean: '가족', romanization: 'Gajok', english: 'Family', category: 'family' },
+      { korean: '아버지', romanization: 'Abeoji', english: 'Father', category: 'family' },
+      { korean: '어머니', romanization: 'Eomeoni', english: 'Mother', category: 'family' },
+      { korean: '형/오빠', romanization: 'Hyeong/Oppa', english: 'Older brother', category: 'family' },
+      { korean: '누나/언니', romanization: 'Nuna/Eonni', english: 'Older sister', category: 'family' }
+    ]
+  },
+
+  chinese: {
+    greetings: [
+      { chinese: '你好', romanization: 'Nǐ hǎo', english: 'Hello', category: 'greetings' },
+      { chinese: '您好', romanization: 'Nín hǎo', english: 'Hello (formal)', category: 'greetings' },
+      { chinese: '早上好', romanization: 'Zǎoshang hǎo', english: 'Good morning', category: 'greetings' },
+      { chinese: '晚上好', romanization: 'Wǎnshàng hǎo', english: 'Good evening', category: 'greetings' },
+      { chinese: '再见', romanization: 'Zàijiàn', english: 'Goodbye', category: 'greetings' },
+      { chinese: '你好吗?', romanization: 'Nǐ hǎo ma?', english: 'How are you?', category: 'greetings' }
+    ],
+    politeness: [
+      { chinese: '谢谢', romanization: 'Xièxie', english: 'Thank you', category: 'politeness' },
+      { chinese: '不客气', romanization: 'Bù kèqi', english: 'You\'re welcome', category: 'politeness' },
+      { chinese: '对不起', romanization: 'Duìbuqǐ', english: 'Sorry', category: 'politeness' },
+      { chinese: '没关系', romanization: 'Méi guānxi', english: 'It\'s okay', category: 'politeness' },
+      { chinese: '请', romanization: 'Qǐng', english: 'Please', category: 'politeness' },
+      { chinese: '不好意思', romanization: 'Bù hǎoyìsi', english: 'Excuse me', category: 'politeness' }
+    ],
+    basics: [
+      { chinese: '是', romanization: 'Shì', english: 'Yes / is', category: 'basics' },
+      { chinese: '不是', romanization: 'Bù shì', english: 'No / is not', category: 'basics' },
+      { chinese: '好', romanization: 'Hǎo', english: 'Good / OK', category: 'basics' },
+      { chinese: '我叫...', romanization: 'Wǒ jiào...', english: 'My name is...', category: 'introduction' },
+      { chinese: '很高兴认识你', romanization: 'Hěn gāoxìng rènshi nǐ', english: 'Nice to meet you', category: 'introduction' }
+    ],
+    numbers: [
+      { chinese: '一', romanization: 'Yī', english: '1', category: 'numbers' },
+      { chinese: '二', romanization: 'Èr', english: '2', category: 'numbers' },
+      { chinese: '三', romanization: 'Sān', english: '3', category: 'numbers' },
+      { chinese: '四', romanization: 'Sì', english: '4', category: 'numbers' },
+      { chinese: '五', romanization: 'Wǔ', english: '5', category: 'numbers' },
+      { chinese: '六', romanization: 'Liù', english: '6', category: 'numbers' },
+      { chinese: '七', romanization: 'Qī', english: '7', category: 'numbers' },
+      { chinese: '八', romanization: 'Bā', english: '8', category: 'numbers' },
+      { chinese: '九', romanization: 'Jiǔ', english: '9', category: 'numbers' },
+      { chinese: '十', romanization: 'Shí', english: '10', category: 'numbers' }
+    ],
+    family: [
+      { chinese: '家人', romanization: 'Jiārén', english: 'Family', category: 'family' },
+      { chinese: '父亲', romanization: 'Fùqīn', english: 'Father', category: 'family' },
+      { chinese: '母亲', romanization: 'Mǔqīn', english: 'Mother', category: 'family' },
+      { chinese: '哥哥', romanization: 'Gēge', english: 'Older brother', category: 'family' },
+      { chinese: '姐姐', romanization: 'Jiějie', english: 'Older sister', category: 'family' }
+    ]
   }
 };
 

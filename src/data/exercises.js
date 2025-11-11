@@ -105,6 +105,20 @@ export const exercisesData = {
     multiple_choice: generateMultipleChoiceExercises('amharic'),
     flashcards: generateFlashcardsFromOmniglot('amharic'),
     translation: generateTranslationExercises('amharic')
+  },
+  korean: {
+    // Auto-generated from open-source Omniglot data (30+ phrases with romanization)
+    fill_in_blank: generateFillInBlankExercises('korean'),
+    multiple_choice: generateMultipleChoiceExercises('korean'),
+    flashcards: generateFlashcardsFromOmniglot('korean'),
+    translation: generateTranslationExercises('korean')
+  },
+  chinese: {
+    // Auto-generated from open-source Omniglot data (30+ phrases with Pinyin romanization)
+    fill_in_blank: generateFillInBlankExercises('chinese'),
+    multiple_choice: generateMultipleChoiceExercises('chinese'),
+    flashcards: generateFlashcardsFromOmniglot('chinese'),
+    translation: generateTranslationExercises('chinese')
   }
 };
 
